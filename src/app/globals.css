@@ -1,26 +1,66 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #FFF8F0;
   --foreground: #171717;
+  /* Typographic palette */
+  --text-primary: #2C2C2C;   /* body text on light */
+  --text-heading: #111111;   /* headings on light */
+  --text-muted: #6B6B6B;     /* subtle labels on light */
+  --text-inverted: #FAFAFA;  /* text on strong accents */
+  
+  /* Ensure these are available for all browsers */
+  background-color: #FFF8F0;
+  color: #2C2C2C;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* Remove @theme inline which might not be supported in all browsers */
 
+/* We'll handle dark mode through JS for better cross-browser compatibility */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light) {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --text-primary: #e8e8e8; /* readable on dark */
+    --text-heading: #ffffff; /* stronger contrast on dark */
+    --text-muted: #a3a3a3;
+    --text-inverted: #0b0b0b; /* inverted against light accents on dark */
+    
+    /* Ensure these are available for all browsers */
+    background-color: #0a0a0a;
+    color: #e8e8e8;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Respect ThemeProvider's html.dark toggle (Tailwind convention) */
+.dark,
+html.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --text-primary: #e8e8e8;
+  --text-heading: #ffffff;
+  --text-muted: #a3a3a3;
+  --text-inverted: #0b0b0b;
+  
+  /* Ensure these are available for all browsers */
+  background-color: #0a0a0a !important;
+  color: #e8e8e8 !important;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  /* Use both direct colors and CSS variables for maximum compatibility */
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Semantic element defaults */
+h1, h2, h3, h4, h5, h6 { color: var(--text-heading); }
+p, li, span, div { color: inherit; }
+small, label, .muted { color: var(--text-muted); }
+.text-inverted { color: var(--text-inverted); }
